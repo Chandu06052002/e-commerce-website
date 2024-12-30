@@ -83,7 +83,7 @@ def updateItem(request):
 
 
 def processOrder(request):
-	transaction_id = datetime.datetime.now().timestatmp()
+	transaction_id = datetime.datetime.now().timestamp()
 	data = json.loads(request.body)
 
 	if request.user.is_authenticated:
@@ -92,7 +92,7 @@ def processOrder(request):
 		total = float(data['form']['total'])
 		order.transaction_id = transaction_id
 
-		if total == float(order.get_cart_total):
+		if total == order.get_cart_total:
 			order.complete = True
 		order.save()
 
@@ -103,9 +103,9 @@ def processOrder(request):
 			address=data['shipping']['address'],
 			city=data['shipping']['city'],
 			state=data['shipping']['state'],
-			Pincode=data['shipping']['Pincode'],
-	)
-
+			zipcode=data['shipping']['zipcode'],
+			)
 	else:
-		print("user is not logged in...")
-	return JsonResponse('Pyment completed...', safe=False)
+		print('User is not logged in')
+
+	return JsonResponse('Payment submitted..', safe=False)
